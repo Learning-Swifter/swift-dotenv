@@ -1,4 +1,5 @@
-import Darwin
+// 实际测试导入Darwin并无实际意义，反而会导致跨平台编译失败
+// import Darwin
 import Foundation
 
 /// Structure used to load and save environment files.
@@ -164,7 +165,11 @@ public enum Dotenv {
     ///   - key: Key to set the value with.
     ///   - overwrite: Flag that indicates if any existing value should be overwritten, defaults to `true`.
     public static func set(value: String?, forKey key: String, overwrite: Bool = true) {
-        setenv(key, value, overwrite ? 1 : 0)
+        // 在swift 6.0-dev上编译失败
+        // 6.0-DEVELOPMENT-SNAPSHOT-2024-07-02-a
+        // value暂时设置默认值为空字符串
+        setenv(key, value ?? "", overwrite ? 1 : 0)
+        // setenv(key, value, overwrite ? 1 : 0)
     }
 
     // MARK: - Subscripting
